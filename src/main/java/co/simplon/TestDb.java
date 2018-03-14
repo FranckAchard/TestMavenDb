@@ -1,3 +1,4 @@
+package co.simplon;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -33,6 +34,8 @@ public class TestDb {
 			e.printStackTrace();
 		}
 
+
+		/*
 		System.out.println();
 
 		try {
@@ -42,6 +45,7 @@ public class TestDb {
 			System.out.println("connexion à la base KO");
 			e.printStackTrace();
 		}
+		*/
 
 	}
 
