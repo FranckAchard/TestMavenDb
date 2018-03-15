@@ -8,14 +8,9 @@
 	<description>test</description>
 	<dependencies>
 		<dependency>
-			<groupId>postgresql</groupId>
+			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-			<version>9.1-901-1.jdbc4</version>
-		</dependency>
-		<dependency>
-			<groupId>com.opencsv</groupId>
-			<artifactId>opencsv</artifactId>
-			<version>4.1</version>
+			<version>42.2.1</version>
 		</dependency>
 	</dependencies>
 </project>

@@ -51,7 +51,12 @@ public class City {
 	public void setLongitude(double longitude) {
 		this.longitude = longitude;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "City [id=" + id + ", name=" + name + ", latitude=" + latitude + ", longitude=" + longitude + "]";
+	}
+
 	
 	
 }
