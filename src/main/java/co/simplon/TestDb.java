@@ -25,16 +25,32 @@ public class TestDb {
 
 			try (Statement stmt= connLocal.createStatement()) {
 
+				/*
+				// create and store city
+				City myCity= new City("Chelles", 48.883, 2.6);
+				try {
+					myCity.setId(insertCity(myCity, stmt));
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 				printAllCities(connLocal);
 
-				// create and store city
-					City myCity= new City("Chelles", 48.883, 2.6);
-					try {
-						insertCity(myCity, stmt);
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
-					printAllCities(connLocal);
+				// update a city
+				myCity.setName("Tombouctou");
+				myCity.setLatitude(5.9);
+				try {
+					updateCity(myCity, stmt);
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				printAllCities(connLocal);
+				*/
+				
+				// delete a city
+				printAllCities(connLocal);
+				deleteCity(new Long(15), stmt);
+				printAllCities(connLocal);
+				
 
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -46,6 +62,7 @@ public class TestDb {
 
 	}
 
+	// method for printing all cities
 	public static void printAllCities(Connection conn) {
 		// list of cities to store select result
 		ArrayList<City> listCities= new ArrayList<City>();
@@ -55,8 +72,10 @@ public class TestDb {
 			// select and print all cities
 			try (ResultSet result= stmt.executeQuery("SELECT * FROM public.\"City\"")) {
 				while (result.next()) {
+					// add a City to the list
 					listCities.add(new City(result.getLong("id"), result.getString("name"), result.getDouble("latitude"), result.getDouble("longitude")));
 				}
+				// print cities
 				for (City cit : listCities) {
 					System.out.println(cit);
 				}
@@ -68,22 +87,44 @@ public class TestDb {
 		}
 	}
 
-	public static boolean insertCity(City pCity, Statement pStmt) throws SQLException {
-		boolean res= false;
-		String myInsert= "INSERT INTO public.\"City\" (name, latitude, longitude) VALUES ('" + pCity.getName() + "'," + pCity.getLatitude() + "," + pCity.getLongitude() + ")";
-		System.out.println(myInsert);
+	// method for inserting a city
+	public static Long insertCity(City pCity, Statement pStmt) {
+		long res= 0;
+		String sql= "INSERT INTO public.\"City\" (name, latitude, longitude) VALUES ('" + pCity.getName() + "'," + pCity.getLatitude() + "," + pCity.getLongitude() + ")";
+		System.out.println(sql);
 		try {
-			res= pStmt.execute(myInsert, Statement.RETURN_GENERATED_KEYS);
+			pStmt.execute(sql, Statement.RETURN_GENERATED_KEYS);
 			ResultSet rs= pStmt.getGeneratedKeys();
 			rs.next();
-			System.out.println("Generated key = " + rs.getLong("id"));
+			res= rs.getLong("id");
+			System.out.println("Generated key = " + res);
 
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}
-		return res;
+		} 
+		
+		return (new Long(res));
+
 	}
 
-
+	public static void updateCity(City pCity, Statement pStmt) {
+		String sql= "UPDATE public.\"City\" SET name= '" + pCity.getName() + "', latitude= " + pCity.getLatitude() + ", longitude= " + pCity.getLongitude() + " WHERE id=" + pCity.getId().longValue();
+		System.out.println(sql);
+		try {
+			pStmt.executeUpdate(sql);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void deleteCity(Long id, Statement pStmt) {
+		String sql= "DELETE FROM public.\"City\" WHERE id=" + id;
+		System.out.println(sql);
+		try {
+			System.out.println("nb rows deleted = " + pStmt.executeUpdate(sql));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 
 }
