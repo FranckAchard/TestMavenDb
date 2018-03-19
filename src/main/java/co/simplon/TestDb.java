@@ -51,7 +51,9 @@ public class TestDb {
 				deleteCity(new Long(15), stmt);
 				printAllCities(connLocal);
 				
-
+				
+				
+				
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
